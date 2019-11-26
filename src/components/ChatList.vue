@@ -5,12 +5,12 @@
                 <ul>
                     <template v-for="item in records">
                         <li class="chat-mine" v-if="item.type==1">
-                            <div class="chat-user"><img src="../assets/user.png"></div>
+                            <div class="chat-user"><img :src="item.avatar"></div>
                             <div class="time"><cite><i>{{item.time}}</i>{{item.name}}</cite></div>
                             <div class="chat-text" v-html="replaceFace(item.content)"></div>
                         </li>
                         <li v-if="item.type==2">
-                            <div class="chat-user"><img src="../assets/default.png"></div>
+                            <div class="chat-user"><img :src="item.avatar"></div>
                             <div class="time"><cite>{{item.name}}<i>{{item.time}}</i></cite></div>
                             <div class="chat-text" v-html="replaceFace(item.content)"></div>
                         </li>
@@ -186,7 +186,7 @@ export default {
                 return;
             }
 
-            this.records.push({
+            /*this.records.push({
                 type: 1,
                 time: util.formatDate.format(new Date(),'yyyy-MM-dd hh:mm:ss'),
                 name: '游客',
@@ -200,11 +200,19 @@ export default {
                     name: '客服MM',
                     content: '你好！'
                 });
-            },100);
+            },100);*/
+
+            window.apiconn.send_obj({
+                obj: "message",
+                act: "group_send",
+                header_id: window.group_header_id,
+                mtype: "text",
+                content: this.content,
+            });
 
             this.content='';
 
-            this.scrollToBottom();
+            //this.scrollToBottom();
             //this.focusTxtContent();//聚焦输入框
         
         },
