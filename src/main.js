@@ -123,7 +123,17 @@ window.apiconn.response_received_handler = function(jo) {
         window.globalvapp.$children[0].$children[1].scrollToBottom();
     }
     
+    // 发送消息返回，获取消息列表
     if (jo.obj == "message" && jo.act == "group_send") {
+        apiconn.send_obj({
+            "obj": "message",
+            "act": "group_get",
+            "header_id": window.group_header_id,
+        });
+    }
+    
+    // 群里有人发送消息推送，获取消息列表
+    if (jo.obj == "push" && jo.act == "message_group") {
         apiconn.send_obj({
             "obj": "message",
             "act": "group_get",
